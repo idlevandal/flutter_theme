@@ -8,11 +8,11 @@ final _themeManagerProvider = StateProvider<bool>((ref) {
 });
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -22,22 +22,23 @@ class MyApp extends ConsumerWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ref.watch(_themeManagerProvider.state).state ? ThemeMode.dark : ThemeMode.light,
-      home: const Home(),
+      home: Home(),
     );
   }
 }
 
 class Home extends ConsumerWidget {
-  const Home({Key? key}) : super(key: key);
+  Home({Key? key}) : super(key: key);
 
   final double imageSize = 160.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('run build...');
+    TextTheme _textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Theme App'),
+        title: Text('Theme App'),
         actions: [
           Switch(
               value: ref.watch(_themeManagerProvider.state).state,
@@ -48,7 +49,7 @@ class Home extends ConsumerWidget {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,25 +60,26 @@ class Home extends ConsumerWidget {
                 height: imageSize,
               ),
               addVerticalSpace(10),
-              const Text(
+              Text(
                 'Your Name',
+                style: _textTheme.headline4,
               ),
               addVerticalSpace(10),
-              const Text(
+              Text(
                 '@yourusername',
+                style: _textTheme.subtitle1?.copyWith(color: Theme.of(context).primaryColor),
               ),
               addVerticalSpace(10),
-              const Text(
+              Text(
                 'This is a simple status',
               ),
               addVerticalSpace(20),
-              const TextField(),
+              TextField(),
               addVerticalSpace(20),
               ElevatedButton(
-                child: const Text('Just click'),
+                child: Text('Just click'),
                 onPressed: () {
-                  ref.read(_themeManagerProvider.state).state = !ref.read(_themeManagerProvider.state).state;
-                  print(ref.read(_themeManagerProvider.state).state);
+                  // do stuff
                 },
               ),
             ],
@@ -85,7 +87,7 @@ class Home extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
         onPressed: () {
           const snackBar = SnackBar(
             content: Text('A SnackBar!'),
