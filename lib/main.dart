@@ -7,6 +7,7 @@ final _themeManagerProvider = StateProvider<bool>((ref) {
   return false;
 });
 
+/// add comment to test using git branch
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
